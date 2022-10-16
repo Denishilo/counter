@@ -3,9 +3,7 @@ import s from './Settings.module.css'
 import {Button} from "../Counter/Button/Button";
 
 export const Settings = () => {
-
     const finallySetButtonClass = s.button
-
     return (
         <div className={s.wrapper}>
             <div className={s.counterSettingsWrapper}>
