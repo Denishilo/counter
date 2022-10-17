@@ -7,7 +7,6 @@ type ButtonPropsType = {
     className: string
 }
 
-
 export const Button = (props: ButtonPropsType) => {
     const {name, callback, disabled, className} = props
 
