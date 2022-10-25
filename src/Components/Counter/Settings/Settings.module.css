@@ -32,12 +32,19 @@
     margin: 10px;
 }
 
-.maxValueInput {
+.input {
     height: 40px;
     font-size: 16px;
     text-align: center;
     border-radius: 8px;
     border: 2px solid darkturquoise;
+}
+
+.errorInput {
+    background: #ff5a5a;
+    border: 2px solid #ff5a5a;
+
+
 }
 
 .wrapperButton {
@@ -60,4 +67,7 @@
     border-radius: 10px;
     border: none;
     margin: 20px;
+}
+.disabled {
+    opacity: 0.5;
 }

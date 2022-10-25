@@ -3,49 +3,50 @@ import {ButtonHTMLAttributes, DetailedHTMLProps} from "react";
 import {Button} from "./Button/Button";
 
 type DefaultButtonPropsType = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
+
 type CounterPropsType = DefaultButtonPropsType & {
     maxValue: number
     startValue: number
     increaseValue: () => void
     resetValue: () => void
-    changeError: () => void
-    value: number
+    valueSetting: number
+    changeInput: boolean
 }
 
 export const Counter = (props: CounterPropsType) => {
-    let {startValue, increaseValue, resetValue, maxValue, value} = props
 
-    const finallyIncButtonClass = styles.button + (startValue >= maxValue || startValue < 0 ? ' ' + styles.disabled : '')
-    const finallyResetButtonClass = styles.button + (startValue > 0 ? ' ' : ' ' + styles.disabled)
+    const {startValue, increaseValue, resetValue, maxValue, valueSetting, changeInput} = props
+
+    const counterValue = valueSetting >= maxValue || valueSetting < 0 || startValue === maxValue;
+
+    const buttonIncreaseDisabled = valueSetting < 0 || startValue >= maxValue || valueSetting >= maxValue;
+    const buttonIncreaseClassName = styles.button + (startValue >= maxValue || valueSetting < 0 || valueSetting >= maxValue ? ' ' + styles.disabled : '')
+
+    const buttonResetDisabled = startValue <= 0 || valueSetting >= maxValue || valueSetting === startValue || valueSetting < 0;
+    const buttonResetClassName = styles.button + (valueSetting >= maxValue || startValue < 0 || valueSetting === startValue || valueSetting < 0 ? ' ' + styles.disabled : ' ')
 
     return (
         <div className={styles.counterWrapper}>
 
             <div className={styles.counterValueWrapper}>
-                <p
-                    className={startValue >= 0 && startValue !== maxValue
-                        ? styles.counterValue
-                        : styles.counterValue + ' ' + styles.maxValue}
-
-                >
-                    {startValue < 0 || startValue > maxValue
+                <p className={counterValue ? styles.counterValue + ' ' + styles.maxValue : styles.counterValue}>
+                    {valueSetting < 0 || valueSetting >= maxValue
                         ? `incorrect value`
-                        : !startValue ? `enter value` : startValue
+                        : changeInput ? 'press set' : startValue
                     }
-
                 </p>
 
             </div>
             <div className={styles.counterButton}>
                 <div className={styles.buttonIncrease}>
                     <Button name={'increase'} callback={increaseValue}
-                            disabled={value < 0 || value >= maxValue}
-                            className={finallyIncButtonClass}/>
+                            disabled={buttonIncreaseDisabled}
+                            className={buttonIncreaseClassName}/>
                 </div>
                 <div className={styles.buttonReset}>
                     <Button name={'reset'} callback={resetValue}
-                            disabled={value === 0}
-                            className={finallyResetButtonClass}/>
+                            disabled={buttonResetDisabled}
+                            className={buttonResetClassName}/>
                 </div>
             </div>
         </div>

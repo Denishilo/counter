@@ -1,32 +1,31 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useReducer, useState} from 'react';
 import './App.css';
 import {Counter} from "./Components/Counter/Counter";
 import {Settings} from "./Components/Counter/Settings/Settings";
+import {Counter2} from "./Components/Counter2/Counter2";
+
 
 function App() {
+
     let [maxValue, setMaxValue] = useState<number>(0)
     let [startValue, setStartValue] = useState<number>(0)
-    let [error, setError] = useState<boolean>(false)
-
-    let [valueSetting, setValueSetting] = useState(0)  /**
-     *  можно ли избавиться от этого стейта так чтобы при измененении старт вэлью не менялось сразу значение в счетчике
-     */
-
-    // где лучше создавать этот хук
-
-    useEffect(() => {
-        localStorage.setItem(`maxValue`, JSON.stringify(maxValue))
-    }, [maxValue])
-
+    let [valueSetting, setValueSetting] = useState<number>(0)
+    let [changeInput, setChangeInput] = useState<boolean>(false)
+    let [isSettings, setSettings] = useState<boolean>(false)
 
     useEffect(() => {
         let maxItemStorage = localStorage.getItem(`maxValue`)
         if (maxItemStorage) {
-            console.log('true') /// работатет
             setMaxValue(JSON.parse(maxItemStorage))
         }
-    }, [])
 
+        let startItemStorage = localStorage.getItem('startValue')
+        if (startItemStorage) {
+            setValueSetting(JSON.parse(startItemStorage))
+            setStartValue(JSON.parse(startItemStorage))
+        }
+
+    }, [])
 
     const increaseValue = () => {
         startValue++;
@@ -34,27 +33,40 @@ function App() {
     }
 
     const resetValue = () => {
-        setStartValue(0)
-    }
-
-    const changeError = () => {
-        if (startValue >= maxValue) {
-            setError(!error)
-        }
+        setStartValue(valueSetting)
     }
 
     const changeMaxValue = (num: number) => {
         setMaxValue(num)
+        setChangeInput(true)
     }
-
 
     const changeStartValue = (num: number) => {
         setValueSetting(num)
+        setChangeInput(true)
+    }
+
+    const setLocalStorage = () => {
+        localStorage.setItem('maxValue', JSON.stringify(maxValue));
+        localStorage.setItem('startValue', JSON.stringify(valueSetting))
     }
 
     const setStartValueSettings = () => {
         setStartValue(valueSetting)
-        console.log(localStorage.getItem('maxValue')) // тест локала все работает в таком виде
+        setLocalStorage();
+        setChangeInput(false)
+    }
+
+    const openClosedSettings = () => {
+        if(!isSettings){
+            setSettings(!isSettings)
+        } else {
+            setStartValue(valueSetting)
+            setLocalStorage();
+            setChangeInput(false)
+            setSettings(!isSettings)
+        }
+
     }
 
     return (
@@ -62,9 +74,12 @@ function App() {
             <Settings changeMaxValue={changeMaxValue} changeStartValue={changeStartValue} maxValue={maxValue}
                       setStartValueSettings={setStartValueSettings} valueSetting={valueSetting}/>
             <Counter startValue={startValue} increaseValue={increaseValue} resetValue={resetValue}
-                     changeError={changeError} maxValue={maxValue} value={valueSetting}/>
+                     maxValue={maxValue} valueSetting={valueSetting} changeInput={changeInput}/>
+            <Counter2 maxValue={maxValue} startValue={startValue} increaseValue={increaseValue} resetValue={resetValue}
+                      valueSetting={valueSetting} changeInput={changeInput} openClosedSettings={openClosedSettings} isSettings={isSettings}
+                      changeMaxValue={changeMaxValue} changeStartValue={changeStartValue}
+            />
         </div>
-
     );
 }
 

@@ -2,12 +2,13 @@ import React from "react";
 
 type ButtonPropsType = {
     name: string
-    callback: () => void
-    disabled: boolean
     className: string
+    disabled: boolean
+    callback: () => void
 }
 
 export const Button = (props: ButtonPropsType) => {
+
     const {name, callback, disabled, className} = props
 
     return (

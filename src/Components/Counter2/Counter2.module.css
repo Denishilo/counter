@@ -1,5 +1,5 @@
 .counterWrapper {
-    width: 400px;
+    width: 600px;
     margin: 100px auto;
     border: 3px solid darkturquoise;
     border-radius: 10px;
@@ -29,12 +29,8 @@
     background: #282c34;
 }
 
-.buttonIncrease {
-    margin: 10px 0 10px 10px;
-}
-
-.buttonReset {
-    margin: 10px 10px 10px 0;
+.wrapperButtonsSettings{
+    justify-content: center;
 }
 
 .disabled {
@@ -51,6 +47,7 @@
     padding: 10px 20px;
     border-radius: 10px;
     border: none;
+    margin: 10px;
 }
 
 .maxValue {
