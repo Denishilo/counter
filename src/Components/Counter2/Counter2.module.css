@@ -6,6 +6,10 @@
     background: #282c34;
 }
 
+.counterWrapperSettings{
+    width: 400px;
+}
+
 .counterValueWrapper {
     margin: 15px;
     border-radius: 10px;
@@ -49,7 +53,9 @@
     border: none;
     margin: 10px;
 }
-
+.disabledButtonSet {
+    margin: 20px;
+}
 .maxValue {
     color: #ff5a5a;
 }
