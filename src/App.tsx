@@ -1,4 +1,4 @@
-import React, {useEffect, useReducer, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {Counter} from "./Components/Counter/Counter";
 import {Settings} from "./Components/Counter/Settings/Settings";
@@ -22,14 +22,18 @@ function App() {
         let startItemStorage = localStorage.getItem('startValue')
         if (startItemStorage) {
             setValueSetting(JSON.parse(startItemStorage))
-            setStartValue(JSON.parse(startItemStorage))
+        }
+
+        let currentItemStorage = localStorage.getItem('currentValue')
+        if (currentItemStorage) {
+            setStartValue(JSON.parse(currentItemStorage))
         }
 
     }, [])
 
     const increaseValue = () => {
-        startValue++;
-        setStartValue(startValue)
+        setStartValue(++startValue)
+        localStorage.setItem('currentValue', JSON.stringify(startValue));
     }
 
     const resetValue = () => {
