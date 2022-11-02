@@ -84,6 +84,8 @@ function App() {
 
     const resetValue = () => {
         dispatch(resetValueAC())
+
+
     }
 
     // const changeMaxValue = (num: number) => {
