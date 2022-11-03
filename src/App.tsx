@@ -15,38 +15,14 @@ import {
 function App() {
 
     const stateValues = {
-        maxValue : 1,
-        startValue:0,
-        valueSetting:0,
-        changeInput:false,
-        isSettings:false,
+        maxValue: 1,
+        startValue: 0,
+        valueSetting: 0,
+        changeInput: false,
+        isSettings: false,
     }
 
-    // let [maxValue, setMaxValue] = useState<number>(0)
-    // let [startValue, setStartValue] = useState<number>(0)
-    // let [valueSetting, setValueSetting] = useState<number>(0)
-    // let [changeInput, setChangeInput] = useState<boolean>(false)
-    // let [isSettings, setSettings] = useState<boolean>(false)
-
-    const[state, dispatch] = useReducer(Reducer,stateValues)
-
-    // useEffect(() => {
-    //     let maxItemStorage = localStorage.getItem(`maxValue`)
-    //     if (maxItemStorage) {
-    //         setMaxValue(JSON.parse(maxItemStorage))
-    //     }
-    //
-    //     let startItemStorage = localStorage.getItem('startValue')
-    //     if (startItemStorage) {
-    //         setValueSetting(JSON.parse(startItemStorage))
-    //     }
-    //
-    //     let currentItemStorage = localStorage.getItem('currentValue')
-    //     if (currentItemStorage) {
-    //         setStartValue(JSON.parse(currentItemStorage))
-    //     }
-    //
-    // }, [])
+    const [state, dispatch] = useReducer(Reducer, stateValues)
 
     useEffect(() => {
         let maxItemStorage = localStorage.getItem(`maxValue`)
@@ -66,102 +42,50 @@ function App() {
             let startValue = JSON.parse(currentItemStorage)
             dispatch(setStartValueFromLocalStorageAC(startValue))
         }
-
     }, [])
 
-    // const increaseValue = () => {
-    //     setStartValue(++startValue)
-    //     localStorage.setItem('currentValue', JSON.stringify(startValue));
-    // }
     const increaseValue = () => {
-        dispatch(increaseValueAC())
-        localStorage.setItem('currentValue', JSON.stringify(state.startValue+1));
+        dispatch(increaseValueAC()) // localStorage.setItem('currentValue')
     }
-
-    // const resetValue = () => {
-    //     setStartValue(valueSetting)
-    // }
 
     const resetValue = () => {
         dispatch(resetValueAC())
-
-
     }
-
-    // const changeMaxValue = (num: number) => {
-    //     setMaxValue(num)
-    //     setChangeInput(true)
-    // }
 
     const changeMaxValue = (num: number) => {
         dispatch(changeMaxValueAC(num))
     }
 
-    // const changeStartValue = (num: number) => {
-    //     setValueSetting(num)
-    //     setChangeInput(true)
-    // }
-
     const changeStartValue = (num: number) => {
         dispatch(changeStartValueAC(num))
     }
 
-    const setLocalStorage = () => {
-        localStorage.setItem('maxValue', JSON.stringify(state.maxValue));
-        localStorage.setItem('startValue', JSON.stringify(state.valueSetting))
-    }
-
-    // const setStartValueSettings = () => {
-    //     setStartValue(valueSetting)
-    //     setLocalStorage();
-    //     setChangeInput(false)
+    // const setLocalStorage = () => {
+    //     localStorage.setItem('maxValue', JSON.stringify(state.maxValue));
+    //     localStorage.setItem('startValue', JSON.stringify(state.valueSetting))
     // }
 
     const setStartValueSettings = () => {
-        dispatch(setStartValueSettingsAC())
-        setLocalStorage();
-
+        dispatch(setStartValueSettingsAC()) // localStorage.setItem('maxValue') and localStorage.setItem('startValue')
     }
 
-    // const openClosedSettings = () => {
-    //     if(!isSettings){
-    //         setSettings(!isSettings)
-    //     } else {
-    //         setStartValue(valueSetting)
-    //         setLocalStorage();
-    //         setChangeInput(false)
-    //         setSettings(!isSettings)
-    //     }
-    // }
-
     const openClosedSettings = () => {
-        dispatch(openClosedSettingsAC())
-        setLocalStorage();
-
+        dispatch(openClosedSettingsAC())  // localStorage.setItem('maxValue') and localStorage.setItem('startValue')
     }
 
     return (
-        // <div className='wrapperApp'>
-        //     <Settings changeMaxValue={changeMaxValue} changeStartValue={changeStartValue} maxValue={maxValue}
-        //               setStartValueSettings={setStartValueSettings} valueSetting={valueSetting}/>
-        //     <Counter startValue={startValue} increaseValue={increaseValue} resetValue={resetValue}
-        //              maxValue={maxValue} valueSetting={valueSetting} changeInput={changeInput}/>
-        //     <Counter2 maxValue={maxValue} startValue={startValue} increaseValue={increaseValue} resetValue={resetValue}
-        //               valueSetting={valueSetting} changeInput={changeInput} openClosedSettings={openClosedSettings} isSettings={isSettings}
-        //               changeMaxValue={changeMaxValue} changeStartValue={changeStartValue}
-        //     />
-        // </div>
-
-    <div className='wrapperApp'>
-        <Settings changeMaxValue={changeMaxValue} changeStartValue={changeStartValue} maxValue={state.maxValue}
-                  setStartValueSettings={setStartValueSettings} valueSetting={state.valueSetting}/>
-        <Counter startValue={state.startValue} increaseValue={increaseValue} resetValue={resetValue}
-                 maxValue={state.maxValue} valueSetting={state.valueSetting} changeInput={state.changeInput}/>
-        <Counter2 maxValue={state.maxValue} startValue={state.startValue} increaseValue={increaseValue} resetValue={resetValue}
-                  valueSetting={state.valueSetting} changeInput={state.changeInput} openClosedSettings={openClosedSettings} isSettings={state.isSettings}
-                  changeMaxValue={changeMaxValue} changeStartValue={changeStartValue}
-        />
-    </div>
+        <div className='wrapperApp'>
+            <Settings changeMaxValue={changeMaxValue} changeStartValue={changeStartValue} maxValue={state.maxValue}
+                      setStartValueSettings={setStartValueSettings} valueSetting={state.valueSetting}/>
+            <Counter startValue={state.startValue} increaseValue={increaseValue} resetValue={resetValue}
+                     maxValue={state.maxValue} valueSetting={state.valueSetting} changeInput={state.changeInput}/>
+            <Counter2 maxValue={state.maxValue} startValue={state.startValue} increaseValue={increaseValue}
+                      resetValue={resetValue}
+                      valueSetting={state.valueSetting} changeInput={state.changeInput}
+                      openClosedSettings={openClosedSettings} isSettings={state.isSettings}
+                      changeMaxValue={changeMaxValue} changeStartValue={changeStartValue}
+            />
+        </div>
     );
 }
 

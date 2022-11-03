@@ -27,7 +27,7 @@ export const Settings = (props: SettingsPropsType) => {
     const changeSetHandler = () => {
         setStartValueSettings()
     }
-    
+
     const disabledButtonSet = maxValue === valueSetting || maxValue < valueSetting || valueSetting < 0
     const finallySetButtonClass = s.button + (disabledButtonSet ? ' ' + s.disabled : '')
     const finallyInputMaxValueClass = s.input + (maxValue === valueSetting || maxValue < 0 || maxValue < valueSetting ? ' ' + s.errorInput : '')

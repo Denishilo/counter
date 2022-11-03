@@ -62,7 +62,9 @@ type allActionType =
 export const Reducer = (state: stateType, action: allActionType): stateType => {
     switch (action.type) {
         case "INCREASE-VALUE": {
-            return {...state, startValue: state.startValue++}
+            const newState = {...state, startValue: state.startValue+1}
+            localStorage.setItem('currentValue', JSON.stringify(state.startValue+1))
+            return newState
         }
         case "RESET-VALUE": {
             return {...state, startValue: state.valueSetting}
@@ -74,13 +76,19 @@ export const Reducer = (state: stateType, action: allActionType): stateType => {
             return {...state, valueSetting: action.payload.num, changeInput: true}
         }
         case "SET-START-VALUE-SETTINGS": {
-            return {...state, startValue: state.valueSetting, changeInput: false}
+            const newState = {...state, startValue: state.valueSetting, changeInput: false}
+            localStorage.setItem('maxValue', JSON.stringify(state.maxValue));
+            localStorage.setItem('startValue', JSON.stringify(state.valueSetting))
+            return newState
         }
         case "OPEN-CLOSED-SETTINGS": {
             if (!state.isSettings) {
                 return {...state, isSettings: !state.isSettings}
             }
-            return {...state, startValue: state.valueSetting, changeInput: false, isSettings: !state.isSettings}
+            const newState = {...state, startValue: state.valueSetting, changeInput: false, isSettings: !state.isSettings}
+            localStorage.setItem('maxValue', JSON.stringify(state.maxValue));
+            localStorage.setItem('startValue', JSON.stringify(state.valueSetting))
+            return newState
         }
         case "SET-MAX-VALUE-FROM-LOCAL-STORAGE": {
             return {...state, maxValue: action.payload.num}
@@ -91,9 +99,8 @@ export const Reducer = (state: stateType, action: allActionType): stateType => {
         case "SET-START-VALUE-FROM-LOCAL-STORAGE": {
             return {...state, startValue: action.payload.num}
         }
-
         default:
-            throw new Error('I dont understand this type')
+            return state
     }
 }
 

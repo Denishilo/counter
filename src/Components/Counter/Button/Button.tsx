@@ -13,7 +13,7 @@ export const Button = (props: ButtonPropsType) => {
 
     return (
         <button disabled={disabled} onClick={callback}
-                className={className}>{name}
+                className={className} >{name}
         </button>
     )
 }
