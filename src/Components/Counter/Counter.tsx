@@ -17,22 +17,22 @@ export const Counter = (props: CounterPropsType) => {
 
     const {startValue, increaseValue, resetValue, maxValue, valueSetting, changeInput} = props
 
-    const counterValue = valueSetting >= maxValue || valueSetting < 0 || startValue === maxValue;
+    const counterValue = valueSetting >= maxValue || startValue < 0 || startValue === maxValue;
 
-    const buttonIncreaseDisabled = valueSetting < 0 || startValue >= maxValue || valueSetting >= maxValue;
-    const buttonIncreaseClassName = styles.button + (startValue >= maxValue || valueSetting < 0 || valueSetting >= maxValue ? ' ' + styles.disabled : '')
+    const buttonIncreaseDisabled = startValue < 0 || valueSetting >= maxValue || startValue >= maxValue;
+    const buttonIncreaseClassName = styles.button + (valueSetting >= maxValue || startValue < 0 || startValue >= maxValue ? ' ' + styles.disabled : '')
 
-    const buttonResetDisabled = startValue <= 0 || valueSetting >= maxValue || valueSetting === startValue || valueSetting < 0;
-    const buttonResetClassName = styles.button + (valueSetting >= maxValue || startValue < 0 || valueSetting === startValue || valueSetting < 0 ? ' ' + styles.disabled : ' ')
+    const buttonResetDisabled = startValue <= 0 || startValue >= maxValue || valueSetting === startValue || startValue < 0;
+    const buttonResetClassName = styles.button + (startValue >= maxValue || startValue < 0 || valueSetting === startValue || startValue < 0 ? ' ' + styles.disabled : ' ')
 
     return (
         <div className={styles.counterWrapper}>
 
             <div className={styles.counterValueWrapper}>
                 <p className={counterValue ? styles.counterValue + ' ' + styles.maxValue : styles.counterValue}>
-                    {valueSetting < 0 || valueSetting >= maxValue
+                    {startValue < 0 || valueSetting >= maxValue || maxValue <= startValue
                         ? `incorrect value`
-                        : changeInput ? 'press set' : startValue
+                        : changeInput ? 'press set' : valueSetting
                     }
                 </p>
 

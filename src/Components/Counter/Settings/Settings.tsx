@@ -5,6 +5,7 @@ import {InputValue} from "./InputValue/InputValue";
 
 
 type SettingsPropsType = {
+    startValue:number
     maxValue: number
     valueSetting: number
     setStartValueSettings: () => void
@@ -14,7 +15,7 @@ type SettingsPropsType = {
 
 export const Settings = (props: SettingsPropsType) => {
 
-    const {changeMaxValue, changeStartValue, maxValue, setStartValueSettings, valueSetting} = props
+    const {changeMaxValue, changeStartValue, maxValue, setStartValueSettings, valueSetting,startValue} = props
 
     const changeMaxValueHandler = (num: number) => {
         changeMaxValue(num)
@@ -28,9 +29,9 @@ export const Settings = (props: SettingsPropsType) => {
         setStartValueSettings()
     }
 
-    const disabledButtonSet = maxValue === valueSetting || maxValue < valueSetting || valueSetting < 0
+    const disabledButtonSet = maxValue === valueSetting || maxValue <= startValue || startValue < 0
     const finallySetButtonClass = s.button + (disabledButtonSet ? ' ' + s.disabled : '')
-    const finallyInputMaxValueClass = s.input + (maxValue === valueSetting || maxValue < 0 || maxValue < valueSetting ? ' ' + s.errorInput : '')
+    const finallyInputMaxValueClass = s.input + (maxValue === valueSetting || maxValue < 0 || maxValue <= startValue ? ' ' + s.errorInput : '')
     const finallyInputStartValueClass = s.input + (disabledButtonSet ? ' ' + s.errorInput : '')
 
 
@@ -39,7 +40,7 @@ export const Settings = (props: SettingsPropsType) => {
             <div className={s.counterSettingsWrapper}>
                 <InputValue callback={changeMaxValueHandler} title={'max value:'} value={maxValue}
                             classNameInput={finallyInputMaxValueClass}/>
-                <InputValue callback={changeStartValueHandler} title={'start value:'} value={valueSetting}
+                <InputValue callback={changeStartValueHandler} title={'start value:'} value={startValue}
                             classNameInput={finallyInputStartValueClass}/>
             </div>
 

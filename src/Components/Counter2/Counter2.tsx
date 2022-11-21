@@ -34,19 +34,21 @@ export const Counter2 = (props: CounterPropsType) => {
         changeStartValue
     } = props
 
-    const counterValue = valueSetting >= maxValue || valueSetting < 0 || startValue === maxValue;
+    const counterValue = valueSetting >= maxValue || startValue < 0 || startValue === maxValue;
 
-    const buttonIncreaseDisabled = valueSetting < 0 || startValue >= maxValue || valueSetting >= maxValue;
-    const buttonIncreaseClassName = styles.button + (startValue >= maxValue || valueSetting < 0 || valueSetting >= maxValue ? ' ' + styles.disabled : '')
+    const buttonIncreaseDisabled = startValue < 0 || valueSetting >= maxValue || startValue >= maxValue;
+    const buttonIncreaseClassName = styles.button + (valueSetting >= maxValue || startValue < 0 || startValue >= maxValue ? ' ' + styles.disabled : '')
 
-    const buttonResetDisabled = startValue <= 0 || valueSetting >= maxValue || valueSetting === startValue || valueSetting < 0;
-    const buttonResetClassName = styles.button + (valueSetting >= maxValue || startValue < 0 || valueSetting === startValue || valueSetting < 0 ? ' ' + styles.disabled : ' ')
+    const buttonResetDisabled = startValue <= 0 || startValue >= maxValue || valueSetting === startValue || startValue < 0;
+    const buttonResetClassName = styles.button + (startValue >= maxValue || startValue < 0 || valueSetting === startValue || startValue < 0 ? ' ' + styles.disabled : ' ')
 
     const disabledButtonSet = maxValue === valueSetting || maxValue < valueSetting || valueSetting < 0
     const buttonSetClassName = styles.button + ' ' + (disabledButtonSet ? styles.disabled : '') + ' ' + (isSettings ? styles.disabledButtonSet : '')
 
     const wrapperButtons = styles.counterButton + ' ' + (isSettings ? styles.wrapperButtonsSettings : '')
     const counterWrapper = styles.counterWrapper + ' ' + (isSettings ? styles.counterWrapperSettings : '')
+
+
     const changeOpenSetHandler = () => {
         openClosedSettings()
     }
@@ -59,22 +61,22 @@ export const Counter2 = (props: CounterPropsType) => {
         changeStartValue(num)
     }
 
-    const finallyInputMaxValueClass = s.input + (maxValue === valueSetting || maxValue < 0 || maxValue < valueSetting ? ' ' + s.errorInput : '')
+    const finallyInputMaxValueClass = s.input + (maxValue === valueSetting || maxValue < 0 || maxValue <= startValue ? ' ' + s.errorInput : '')
     const finallyInputStartValueClass = s.input + (disabledButtonSet ? ' ' + s.errorInput : '')
     return (
         <div className={counterWrapper}>
 
             {!isSettings ? <div className={styles.counterValueWrapper}>
                 <p className={counterValue ? styles.counterValue + ' ' + styles.maxValue : styles.counterValue}>
-                    {valueSetting < 0 || valueSetting >= maxValue
+                    {startValue < 0 || valueSetting >= maxValue || maxValue <= startValue
                         ? `incorrect value`
-                        : changeInput ? 'press set' : startValue
+                        : changeInput ? 'press set' : valueSetting
                     }
                 </p>
             </div> : <div className={s.counterSettingsWrapper}>
                 <InputValue callback={changeMaxValueHandler} title={'max value:'} value={maxValue}
                             classNameInput={finallyInputMaxValueClass}/>
-                <InputValue callback={changeStartValueHandler} title={'start value:'} value={valueSetting}
+                <InputValue callback={changeStartValueHandler} title={'start value:'} value={startValue}
                             classNameInput={finallyInputStartValueClass}/>
             </div>}
 

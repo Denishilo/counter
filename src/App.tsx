@@ -1,4 +1,4 @@
-import React, {useEffect, useReducer} from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {Counter} from "./Components/Counter/Counter";
 import {Settings} from "./Components/Counter/Settings/Settings";
@@ -6,43 +6,40 @@ import {Counter2} from "./Components/Counter2/Counter2";
 import {
     changeMaxValueAC,
     changeStartValueAC,
-    increaseValueAC, openClosedSettingsAC,
-    Reducer,
+    increaseValueAC, InitialStateType, openClosedSettingsAC,
     resetValueAC, setMaxValueFromLocalStorageAC, setStartValueFromLocalStorageAC,
     setStartValueSettingsAC, setValueSettingsFromLocalStorageAC
 } from "./State/Reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {RootReducerType} from "./State/store";
 
 function App() {
+    let maxValue = useSelector<RootReducerType, number>(state => state.counterReducer.maxValue)
+    let startValue = useSelector<RootReducerType, number>(state => state.counterReducer.startValue)
+    let valueSetting = useSelector<RootReducerType, number>(state => state.counterReducer.valueSetting)
+    let changeInput = useSelector<RootReducerType, boolean>(state => state.counterReducer.changeInput)
+    let isSettings = useSelector<RootReducerType, boolean>(state => state.counterReducer.isSettings)
+    let dispatch = useDispatch()
 
-    const stateValues = {
-        maxValue: 1,
-        startValue: 0,
-        valueSetting: 0,
-        changeInput: false,
-        isSettings: false,
-    }
-
-    const [state, dispatch] = useReducer(Reducer, stateValues)
-
-    useEffect(() => {
-        let maxItemStorage = localStorage.getItem(`maxValue`)
-        if (maxItemStorage) {
-            let maxValue = JSON.parse(maxItemStorage)
-            dispatch(setMaxValueFromLocalStorageAC(maxValue))
-        }
-
-        let startItemStorage = localStorage.getItem('startValue')
-        if (startItemStorage) {
-            let valueSettings = JSON.parse(startItemStorage)
-            dispatch(setValueSettingsFromLocalStorageAC(valueSettings))
-        }
-
-        let currentItemStorage = localStorage.getItem('currentValue')
-        if (currentItemStorage) {
-            let startValue = JSON.parse(currentItemStorage)
-            dispatch(setStartValueFromLocalStorageAC(startValue))
-        }
-    }, [])
+    // useEffect(() => {
+    //     let maxItemStorage = localStorage.getItem(`maxValue`)
+    //     if (maxItemStorage) {
+    //         let maxValue = JSON.parse(maxItemStorage)
+    //         dispatch(setMaxValueFromLocalStorageAC(maxValue))
+    //     }
+    //
+    //     let startItemStorage = localStorage.getItem('startValue')
+    //     if (startItemStorage) {
+    //         let valueSettings = JSON.parse(startItemStorage)
+    //         dispatch(setValueSettingsFromLocalStorageAC(valueSettings))
+    //     }
+    //
+    //     let currentItemStorage = localStorage.getItem('currentValue')
+    //     if (currentItemStorage) {
+    //         let startValue = JSON.parse(currentItemStorage)
+    //         dispatch(setStartValueFromLocalStorageAC(startValue))
+    //     }
+    // }, [])
 
     const increaseValue = () => {
         dispatch(increaseValueAC()) // localStorage.setItem('currentValue')
@@ -75,14 +72,14 @@ function App() {
 
     return (
         <div className='wrapperApp'>
-            <Settings changeMaxValue={changeMaxValue} changeStartValue={changeStartValue} maxValue={state.maxValue}
-                      setStartValueSettings={setStartValueSettings} valueSetting={state.valueSetting}/>
-            <Counter startValue={state.startValue} increaseValue={increaseValue} resetValue={resetValue}
-                     maxValue={state.maxValue} valueSetting={state.valueSetting} changeInput={state.changeInput}/>
-            <Counter2 maxValue={state.maxValue} startValue={state.startValue} increaseValue={increaseValue}
+            <Settings startValue={startValue} changeMaxValue={changeMaxValue} changeStartValue={changeStartValue} maxValue={maxValue}
+                      setStartValueSettings={setStartValueSettings} valueSetting={valueSetting}/>
+            <Counter startValue={startValue} increaseValue={increaseValue} resetValue={resetValue}
+                     maxValue={maxValue} valueSetting={valueSetting} changeInput={changeInput}/>
+            <Counter2 maxValue={maxValue} startValue={startValue} increaseValue={increaseValue}
                       resetValue={resetValue}
-                      valueSetting={state.valueSetting} changeInput={state.changeInput}
-                      openClosedSettings={openClosedSettings} isSettings={state.isSettings}
+                      valueSetting={valueSetting} changeInput={changeInput}
+                      openClosedSettings={openClosedSettings} isSettings={isSettings}
                       changeMaxValue={changeMaxValue} changeStartValue={changeStartValue}
             />
         </div>
