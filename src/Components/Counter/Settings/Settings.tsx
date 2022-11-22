@@ -14,7 +14,6 @@ type SettingsPropsType = {
 }
 
 export const Settings = (props: SettingsPropsType) => {
-
     const {changeMaxValue, changeStartValue, maxValue, setStartValueSettings, valueSetting,startValue} = props
 
     const changeMaxValueHandler = (num: number) => {
@@ -34,7 +33,6 @@ export const Settings = (props: SettingsPropsType) => {
     const finallyInputMaxValueClass = s.input + (maxValue === valueSetting || maxValue < 0 || maxValue <= startValue ? ' ' + s.errorInput : '')
     const finallyInputStartValueClass = s.input + (disabledButtonSet ? ' ' + s.errorInput : '')
 
-
     return (
         <div className={s.wrapper}>
             <div className={s.counterSettingsWrapper}>
@@ -43,7 +41,6 @@ export const Settings = (props: SettingsPropsType) => {
                 <InputValue callback={changeStartValueHandler} title={'start value:'} value={startValue}
                             classNameInput={finallyInputStartValueClass}/>
             </div>
-
             <div className={s.wrapperButton}>
                 <Button name={'set'} callback={changeSetHandler} disabled={disabledButtonSet}
                         className={finallySetButtonClass}/>

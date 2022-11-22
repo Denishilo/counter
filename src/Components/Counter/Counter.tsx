@@ -14,28 +14,24 @@ type CounterPropsType = DefaultButtonPropsType & {
 }
 
 export const Counter = (props: CounterPropsType) => {
-
     const {startValue, increaseValue, resetValue, maxValue, valueSetting, changeInput} = props
 
-    const counterValue = valueSetting >= maxValue || startValue < 0 || startValue === maxValue;
-
-    const buttonIncreaseDisabled = startValue < 0 || valueSetting >= maxValue || startValue >= maxValue;
-    const buttonIncreaseClassName = styles.button + (valueSetting >= maxValue || startValue < 0 || startValue >= maxValue ? ' ' + styles.disabled : '')
-
-    const buttonResetDisabled = startValue <= 0 || startValue >= maxValue || valueSetting === startValue || startValue < 0;
-    const buttonResetClassName = styles.button + (startValue >= maxValue || startValue < 0 || valueSetting === startValue || startValue < 0 ? ' ' + styles.disabled : ' ')
+    const incorrectValue = startValue < 0 || maxValue <= startValue
+    const counterValueIncorrect = incorrectValue || valueSetting >= maxValue
+    const buttonIncreaseDisabled = incorrectValue || counterValueIncorrect
+    const buttonIncreaseClassName = styles.button + (counterValueIncorrect ? ' ' + styles.disabled : '')
+    const buttonResetDisabled = incorrectValue || valueSetting === startValue;
+    const buttonResetClassName = styles.button + (buttonResetDisabled? ' ' + styles.disabled : ' ')
 
     return (
         <div className={styles.counterWrapper}>
-
             <div className={styles.counterValueWrapper}>
-                <p className={counterValue ? styles.counterValue + ' ' + styles.maxValue : styles.counterValue}>
-                    {startValue < 0 || valueSetting >= maxValue || maxValue <= startValue
+                <p className={counterValueIncorrect ? styles.counterValue + ' ' + styles.maxValue : styles.counterValue}>
+                    { incorrectValue
                         ? `incorrect value`
                         : changeInput ? 'press set' : valueSetting
                     }
                 </p>
-
             </div>
             <div className={styles.counterButton}>
                 <div className={styles.buttonIncrease}>
