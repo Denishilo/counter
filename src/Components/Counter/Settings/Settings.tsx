@@ -24,14 +24,10 @@ export const Settings = (props: SettingsPropsType) => {
         changeStartValue(num)
     }
 
-    const changeSetHandler = () => {
-        setStartValueSettings()
-    }
-
-    const disabledButtonSet = maxValue === valueSetting || maxValue <= startValue || startValue < 0
-    const finallySetButtonClass = s.button + (disabledButtonSet ? ' ' + s.disabled : '')
-    const finallyInputMaxValueClass = s.input + (maxValue === valueSetting || maxValue < 0 || maxValue <= startValue ? ' ' + s.errorInput : '')
-    const finallyInputStartValueClass = s.input + (disabledButtonSet ? ' ' + s.errorInput : '')
+    const incorrectValues = maxValue === valueSetting || maxValue <= startValue || startValue < 0 || maxValue < 0
+    const finallySetButtonClass = s.button + (incorrectValues ? ' ' + s.disabled : '')
+    const finallyInputMaxValueClass = s.input + (incorrectValues ? ' ' + s.errorInput : '')
+    const finallyInputStartValueClass = s.input + (incorrectValues ? ' ' + s.errorInput : '')
 
     return (
         <div className={s.wrapper}>
@@ -42,7 +38,7 @@ export const Settings = (props: SettingsPropsType) => {
                             classNameInput={finallyInputStartValueClass}/>
             </div>
             <div className={s.wrapperButton}>
-                <Button name={'set'} callback={changeSetHandler} disabled={disabledButtonSet}
+                <Button name={'set'} callback={setStartValueSettings} disabled={incorrectValues}
                         className={finallySetButtonClass}/>
             </div>
         </div>

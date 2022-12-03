@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import './App.css';
 import {Counter} from "./Components/Counter/Counter";
 import {Settings} from "./Components/Counter/Settings/Settings";
@@ -6,9 +6,9 @@ import {Counter2} from "./Components/Counter2/Counter2";
 import {
     changeMaxValueAC,
     changeStartValueAC,
-    increaseValueAC, InitialStateType, openClosedSettingsAC,
-    resetValueAC, setMaxValueFromLocalStorageAC, setStartValueFromLocalStorageAC,
-    setStartValueSettingsAC, setValueSettingsFromLocalStorageAC
+    increaseValueAC,openClosedSettingsAC,
+    resetValueAC,
+    setStartValueSettingsAC,
 } from "./State/Reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {RootReducerType} from "./State/store";
@@ -21,28 +21,8 @@ function App() {
     let isSettings = useSelector<RootReducerType, boolean>(state => state.counterReducer.isSettings)
     let dispatch = useDispatch()
 
-    // useEffect(() => {
-    //     let maxItemStorage = localStorage.getItem(`maxValue`)
-    //     if (maxItemStorage) {
-    //         let maxValue = JSON.parse(maxItemStorage)
-    //         dispatch(setMaxValueFromLocalStorageAC(maxValue))
-    //     }
-    //
-    //     let startItemStorage = localStorage.getItem('startValue')
-    //     if (startItemStorage) {
-    //         let valueSettings = JSON.parse(startItemStorage)
-    //         dispatch(setValueSettingsFromLocalStorageAC(valueSettings))
-    //     }
-    //
-    //     let currentItemStorage = localStorage.getItem('currentValue')
-    //     if (currentItemStorage) {
-    //         let startValue = JSON.parse(currentItemStorage)
-    //         dispatch(setStartValueFromLocalStorageAC(startValue))
-    //     }
-    // }, [])
-
     const increaseValue = () => {
-        dispatch(increaseValueAC()) // localStorage.setItem('currentValue')
+        dispatch(increaseValueAC())
     }
 
     const resetValue = () => {
@@ -57,17 +37,12 @@ function App() {
         dispatch(changeStartValueAC(num))
     }
 
-    // const setLocalStorage = () => {
-    //     localStorage.setItem('maxValue', JSON.stringify(state.maxValue));
-    //     localStorage.setItem('startValue', JSON.stringify(state.valueSetting))
-    // }
-
     const setStartValueSettings = () => {
-        dispatch(setStartValueSettingsAC()) // localStorage.setItem('maxValue') and localStorage.setItem('startValue')
+        dispatch(setStartValueSettingsAC())
     }
 
     const openClosedSettings = () => {
-        dispatch(openClosedSettingsAC())  // localStorage.setItem('maxValue') and localStorage.setItem('startValue')
+        dispatch(openClosedSettingsAC())
     }
 
     return (

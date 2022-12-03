@@ -31,25 +31,7 @@ type setStartValueSettingsType = {
 type openClosedSettingsType = {
     type: 'OPEN-CLOSED-SETTINGS'
 }
-type setMaxValueFromLocalStorageType = {
-    type: 'SET-MAX-VALUE-FROM-LOCAL-STORAGE',
-    payload: {
-        num: number
-    }
-}
-type setValueSettingsFromLocalStorageType = {
-    type: 'SET-VALUE-SETTINGS-FROM-LOCAL-STORAGE',
-    payload: {
-        num: number
-    }
-}
 
-type setStartValueFromLocalStorageType = {
-    type: 'SET-START-VALUE-FROM-LOCAL-STORAGE',
-    payload: {
-        num: number
-    }
-}
 type allActionType =
     increaseValueType
     | resetValueType
@@ -57,10 +39,6 @@ type allActionType =
     | changeStartValueType
     | setStartValueSettingsType
     | openClosedSettingsType
-    | setMaxValueFromLocalStorageType
-    | setValueSettingsFromLocalStorageType
-    | setStartValueFromLocalStorageType
-
 
 const initialState = {
         maxValue: 1,
@@ -75,7 +53,6 @@ export const Reducer = (state: InitialStateType = initialState, action: allActio
         case "INCREASE-VALUE": {
             const newState = {...state, valueSetting: state.valueSetting + 1}
             saveState('currentValue',state.valueSetting+1)
-            //localStorage.setItem('currentValue', JSON.stringify(state.data.startValue + 1))
             return newState
         }
         case "RESET-VALUE": {
@@ -91,39 +68,21 @@ export const Reducer = (state: InitialStateType = initialState, action: allActio
             const newState = {...state, startValue: state.startValue, changeInput: false, valueSetting:state.startValue}
             saveState('maxValue',state.maxValue)
             saveState('startValue',state.startValue)
-
-            //localStorage.setItem('maxValue', JSON.stringify(state.data.maxValue));
-            //localStorage.setItem('startValue', JSON.stringify(state.data.valueSetting))
             return newState
         }
+
         case "OPEN-CLOSED-SETTINGS": {
+            saveState('maxValue',state.maxValue)
+            saveState('startValue',state.startValue)
             if (!state.isSettings) {
                 return {...state, isSettings: !state.isSettings}
             }
-            const newState = {
-                ...state,
-                data: {
-                    ...state,
+            return {...state,
                     startValue: state.startValue,
                     valueSetting:state.startValue,
                     changeInput: false,
                     isSettings: !state.isSettings
-                }
             }
-            saveState('maxValue',state.maxValue)
-            saveState('startValue',state.startValue)
-            //localStorage.setItem('maxValue', JSON.stringify(state.data.maxValue));
-            //localStorage.setItem('startValue', JSON.stringify(state.data.valueSetting))
-            return newState
-        }
-        case "SET-MAX-VALUE-FROM-LOCAL-STORAGE": {
-            return {...state, maxValue: action.payload.num}
-        }
-        case "SET-VALUE-SETTINGS-FROM-LOCAL-STORAGE": {
-            return {...state, valueSetting: action.payload.num}
-        }
-        case "SET-START-VALUE-FROM-LOCAL-STORAGE": {
-            return {...state, startValue: action.payload.num}
         }
         default:
             return state
@@ -168,32 +127,5 @@ export const setStartValueSettingsAC = () => {
 export const openClosedSettingsAC = () => {
     return {
         type: 'OPEN-CLOSED-SETTINGS'
-    } as const
-}
-
-export const setMaxValueFromLocalStorageAC = (num: number) => {
-    return {
-        type: 'SET-MAX-VALUE-FROM-LOCAL-STORAGE',
-        payload: {
-            num
-        }
-    } as const
-}
-
-export const setValueSettingsFromLocalStorageAC = (num: number) => {
-    return {
-        type: 'SET-VALUE-SETTINGS-FROM-LOCAL-STORAGE',
-        payload: {
-            num
-        }
-    } as const
-}
-
-export const setStartValueFromLocalStorageAC = (num: number) => {
-    return {
-        type: 'SET-START-VALUE-FROM-LOCAL-STORAGE',
-        payload: {
-            num
-        }
     } as const
 }

@@ -23,7 +23,6 @@ export const Counter2 = (props: CounterPropsType) => {
 
     const {startValue, increaseValue, resetValue, maxValue, valueSetting, changeInput, openClosedSettings, isSettings, changeMaxValue,
         changeStartValue} = props
-
     //Counter
     const incorrectValue = startValue < 0 || maxValue <= startValue;
     const counterValueIncorrect = incorrectValue || valueSetting >= maxValue
@@ -34,15 +33,11 @@ export const Counter2 = (props: CounterPropsType) => {
     //Settings
     const wrapperButtons = styles.counterButton + ' ' + (isSettings ? styles.wrapperButtonsSettings : '')
     const counterWrapper = styles.counterWrapper + ' ' + (isSettings ? styles.counterWrapperSettings : '')
+    const incorrectValues = maxValue === valueSetting || maxValue <= startValue || startValue < 0 || maxValue < 0
+    const buttonSetClassName = styles.button + ' ' + (incorrectValues ? styles.disabled : '') + ' ' + (isSettings ? styles.disabledButtonSet : '')
+    const finallyInputMaxValueClass = s.input + (incorrectValues ? ' ' + s.errorInput : '')
+    const finallyInputStartValueClass = s.input + (incorrectValues ? ' ' + s.errorInput : '')
 
-    const disabledButtonSet = maxValue === valueSetting || maxValue < valueSetting || valueSetting < 0
-    const buttonSetClassName = styles.button + ' ' + (disabledButtonSet ? styles.disabled : '') + ' ' + (isSettings ? styles.disabledButtonSet : '')
-    const finallyInputMaxValueClass = s.input + (maxValue === valueSetting || maxValue < 0 || maxValue <= startValue ? ' ' + s.errorInput : '')
-    const finallyInputStartValueClass = s.input + (disabledButtonSet ? ' ' + s.errorInput : '')
-
-    const changeOpenSetHandler = () => {
-        openClosedSettings()
-    }
     const changeMaxValueHandler = (num: number) => {
         changeMaxValue(num)
     }
@@ -78,7 +73,7 @@ export const Counter2 = (props: CounterPropsType) => {
                                            className={buttonResetClassName}/> : ''}
                 </div>
                 <div className={styles.buttonReset}>
-                    <Button name={'set'} callback={changeOpenSetHandler} disabled={disabledButtonSet}
+                    <Button name={'set'} callback={openClosedSettings} disabled={incorrectValues}
                             className={buttonSetClassName}/>
                 </div>
             </div>
